@@ -1,21 +1,18 @@
 module.exports = function solveSudoku(matrix) {
-    var emptyPositions = saveEmptyPositions(matrix);
-	
+    let emptyPositions = saveEmptyPositions(matrix);
 	return solvePuzzle(matrix, emptyPositions);
 }
 
 function solvePuzzle(matrix, emptyPositions) {
-	var row;
-	var column;
-	var value;
-	var found;
-	
-	for (var i = 0; i < emptyPositions.length;) {
+	let row;
+	let column;
+	let value;
+	let found;
+	for (let i = 0, len = emptyPositions.length; i < len;) {
 		row = emptyPositions[i][0];
 		column = emptyPositions[i][1];
 		value = matrix[row][column] + 1;	
 		found = false;
-		
 		while (!found && value <= 9) {
 			if (checkValue(matrix, column, row, value)) {
 				found = true;
@@ -25,7 +22,6 @@ function solvePuzzle(matrix, emptyPositions) {
 			else
 				value++;
 		}
-		
 		if (!found) {
 			matrix[row][column] = 0;
 			i--;
@@ -45,47 +41,39 @@ function checkValue(matrix, column, row, value) {
 }
 
 function check3x3Square(matrix, column, row, value) {
-	var rowCorner = 0;
-	var columnCorner = 0;
-	var squareSize = 3;
-
+	let rowCorner = 0;
+	let columnCorner = 0;
+	let squareSize = 3;
 	while (column >= columnCorner + squareSize)
 		columnCorner += squareSize;
-
 	while (row >= rowCorner + squareSize)
 		rowCorner += squareSize;
-
-	for (var i = rowCorner; i < rowCorner + squareSize; i++)
-		for (var j = columnCorner; j < columnCorner + squareSize; j++)
+	for (let i = rowCorner; i < rowCorner + squareSize; i++)
+		for (let j = columnCorner; j < columnCorner + squareSize; j++)
 			if(matrix[i][j] === value)      
 				return false;
-	
 	return true;
 }
 
 function checkColumn(matrix, column, value) {
-	for (var i = 0; i < matrix.length; i++)
+	for (let i = 0, len = matrix.length; i < len; i++)
 		if (matrix[i][column] === value)
 			return false;
-	
 	return true;
 }
 
 function checkRow(matrix, row, value) {
-	for (var i = 0; i < matrix[row].length; i++)
+	for (let i = 0, len = matrix[row].length; i < len; i++)
 		if (matrix[row][i] === value)
 			return false;
-	
 	return true;
 }
 
 function saveEmptyPositions(matrix) {
-	var emptyPositions = [];
-
-	for (var i = 0; i < matrix.length; i++)
-		for (var j = 0; j < matrix[i].length; j++)
+	let emptyPositions = [];
+	for (let i = 0,len = matrix.length; i < len; i++)
+		for (let j = 0, len2 = matrix[i].length; j < len2; j++)
 			if (matrix[i][j] === 0)
 				emptyPositions.push([i, j]);
-
 return emptyPositions;
 }
